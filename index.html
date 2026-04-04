@@ -1,0 +1,469 @@
+<!DOCTYPE HTML>
+<!--
+	Story by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+
+	Note: Only needed for demo purposes. Delete for production sites.
+-->
+<html>
+	<head>
+		<title>Story by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<script>
+			const EMAILJS_PUBLIC_KEY = "EIMtGKDnZP7p-nvet";
+			const EMAILJS_SERVICE_ID = "service_j83ovff";
+			const EMAILJS_TEMPLATE_ID = "template_iz1271e";
+			const EMAILJS_ENDPOINT = "https://api.emailjs.com/api/v1.0/email/send";
+
+			function sendCopyEmail(nameVal, emailVal, messageVal) {
+				const payload = {
+					service_id: EMAILJS_SERVICE_ID,
+					template_id: EMAILJS_TEMPLATE_ID,
+					user_id: EMAILJS_PUBLIC_KEY,
+					template_params: {
+						from_name: nameVal,
+						from_email: emailVal,
+						message: messageVal,
+						reply_to: emailVal,
+						to_email: emailVal
+					}
+				};
+
+				return fetch(EMAILJS_ENDPOINT, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(payload)
+				});
+			}
+
+			function verifyHuman(form) {
+				if (!form.human.checked) {
+					alert('Please confirm you are human before sending.');
+					return false;
+				}
+
+				const firstNumber = Math.floor(Math.random() * 9) + 1;
+				const secondNumber = Math.floor(Math.random() * 9) + 1;
+				const expectedAnswer = firstNumber + secondNumber;
+				const userAnswer = prompt('Quick check: ' + firstNumber + ' + ' + secondNumber + ' = ?');
+
+				if (userAnswer === null) {
+					alert('Verification cancelled. Please try again.');
+					return false;
+				}
+
+				if (parseInt(userAnswer.trim(), 10) !== expectedAnswer) {
+					alert('Verification failed. Please try again.');
+					form.human.checked = false;
+					return false;
+				}
+
+				return true;
+			}
+
+			function sendMail(event) {
+				event.preventDefault();
+				const form = event.target;
+				if (!verifyHuman(form)) {
+					return;
+				}
+				const formData = new FormData(form);
+				const actionUrl = form.action;
+
+				// Send to Formspree
+				fetch(actionUrl, {
+					method: 'POST',
+					body: formData,
+					headers: {
+						'Accept': 'application/json'
+					}
+				})
+				.then(response => {
+					if (!response.ok) {
+						alert('Failed to send message.');
+						return;
+					}
+
+					alert('Message sent successfully!');
+					const nameVal = form.name.value;
+					const emailVal = form.email.value;
+					const messageVal = form.message.value;
+					const copyChecked = form.copy.checked;
+
+					if (copyChecked) {
+						sendCopyEmail(nameVal, emailVal, messageVal)
+							.then(copyResponse => {
+								if (!copyResponse.ok) {
+									return copyResponse.text().then(text => {
+										throw new Error(text || 'Unable to send copy email.');
+									});
+								}
+								return copyResponse.text();
+							})
+							.then(() => {
+								alert('Copy sent to your email!');
+							})
+							.catch(error => {
+								console.error('EmailJS error:', error);
+								alert('Message sent, but failed to send copy: ' + error.message);
+							})
+							.finally(() => {
+								form.reset();
+							});
+					} else {
+						form.reset();
+					}
+				})
+				.catch(error => {
+					alert('Error: ' + error);
+				});
+			}
+		</script>
+	</head>
+	<body class="is-preload">
+
+
+		<!-- Wrapper -->
+			<div id="wrapper" class="divided">
+
+				<!-- Gallery -->
+					<section class="wrapper style1 align-center">
+
+						<!-- Gallery -->
+							<div class="gallery style2 medium lightbox onscroll-fade-in">
+				
+								<article>
+									<a href="images/gallery/fulls/banner 1.jpg" class="image">
+										<img src="images/gallery/thumbs/banner icon 1.jpg" alt="" />
+									</a>
+									<div class="caption">	
+										<ul class="actions fixed">
+											<li><span class="button small">Details</span></li>
+										</ul>
+									</div>
+								</article>
+								<article>
+									<a href="images/gallery/fulls/banner 2.jpg" class="image">
+										<img src="images/gallery/thumbs/banner icon 2.jpg" alt="" />
+									</a>
+									<div class="caption">
+										<ul class="actions fixed">
+											<li><span class="button small">Details</span></li>
+										</ul>
+									</div>
+								</article>
+								<article>
+									<a href="images/gallery/fulls/banner 3.jpg" class="image">
+										<img src="images/gallery/thumbs/banner icon 3.jpg" alt="" />
+									</a>
+									<div class="caption">
+										<ul class="actions fixed">
+											<li><span class="button small">Details</span></li>
+										</ul>
+									</div>
+								</article>
+								<article>
+									<a href="images/gallery/fulls/banner 4.jpg" class="image">
+										<img src="images/gallery/thumbs/banner icon 4.jpg" alt="" />
+									</a>
+									<div class="caption">
+										<ul class="actions fixed">
+											<li><span class="button small">Details</span></li>
+										</ul>
+									</div>
+								</article>
+					</section>
+</div>
+								
+			<section class="wrapper style2 align-left">
+			<div class="inner">
+						
+						<header>
+						<h1>Weekly Fuel Prices in Vietnam</h1>
+						<p>Trinh Linh Dan </p>
+						</header>
+						<p>This project works with a fuel dataset to do data cleaning using Excel, data analysis using R-studio.</p>
+						<span class="image fit"style="width: 75%; margin: 0 auto;"><img src="images/gallery/fulls/banner.jpeg" alt="" /></span>								<span class="image fit"><img src="images/gallery/fulls/banner.png" alt="" /></span>
+
+									<header>
+										<h2><b>Data cleaning</b></h2>
+									</header>
+
+										<p>The dataset contains detailed information on fuel prices in <i>Vietnam</i> getting from <i>Petrolimex</i> and <i>PV oil</i>, including weekly prices for different types of fuel across various regions.</p>
+										<p>First step in data cleaning involved handling missing values, correcting inconsistencies, and ensuring that the data was in a suitable format for analysis. 
+											Next, the data was aggregated in each oil company's dataset to calculate average weekly prices for each fuel type and region, which helped to identify trends and patterns in the data.
+											For example, RON 95 fuel was listed as RON 95 type V zone 4 and RON 95 type V zone 5, which were taken average into a single category of RON 95 to simplify analysis. 
+											
+										<p>Data from both companies were then merged to create a comprehensive dataset that included all relevant information for analysis.
+											After, one final check for data quality (percentage of zeros, percentage of missing values, and outliers) was conducted to ensure the dataset was clean.
+											Finally, the cleaned dataset was structured to facilitate analysis, with clear variable names and consistent formatting.</p>
+											
+										
+									<hr />
+									
+										<header>
+										<h2><b>Data description</b></h2>
+									</header>
+				
+								
+									<p>The dataset contains <b>249 weekly observations</b> of different fuel prices across regions in Vietnam.</p>
+										  
+										  
+											<span class="image fit" ><img src="images/gallery/fulls/Fuel trend price.jpeg" alt="" /></span>
+											<p>The graph tracks fuel prices from 2019 to 2026, covering:
+
+										<ul>
+												<li>Pre ‑ pandemic market conditions</li>
+												<li>The COVID ‑ 19 shock</li>
+												<li>The 2021 ‑ 2022 global energy crisis</li>
+												<li>The stabilization period afterward</li>
+										</ul> 
+									This gives a rich view of both volatility and long ‑ term structural differences between fuel types.</p>
+									<p>Four fuel types (Diesel 0.001%, E10 Ron 95, Fuel Oil 3% and Fuel Oil 3.5%) were introduced into the market significantly later than the others, 
+										resulting in incomplete and irregular time ‑ series records. Because their early data points are missing or fragmented, these fuels do not provide a continuous timeline for comparison.
+										To maintain analytical consistency and avoid distortion in trend analysis, the incomplete segments for these late ‑ entry fuels were removed from the dataset</p>	
+									
+									
+									<hr />
+										<header>
+										<h2><b>Data Analysis</b></h2>
+										</header>
+									<p>Below is the histogram and distribution of each types of fuel that were consistently tracked over the entire period.</p>
+									
+									<div class="table-wrapper">
+												<table class="alt">
+													
+													<tbody>
+													<tr>
+														<td><span class="image fit"><img src="images/gallery/fulls/ron95.jpeg" alt="" /></span></td>
+														<td><span class="image fit"><img src="images/gallery/fulls/diesel05.jpeg" alt="" /></span></td>
+													</tr>
+					
+													<tr>
+														<td><span class="image fit"><img src="images/gallery/fulls/kerosene.jpeg" alt="" /></span></td>
+														<td><span class="image fit"><img src="images/gallery/fulls/e5ron92.jpeg" alt="" /></span></td>
+													</tr>
+													</tbody>
+												</table>
+											</div>
+										<p>Combining with some tests conducted like Jarque - Bera test, skewness and kurtosis check, 
+											we can conclude</p>
+										<ul>
+											<li><b>RON 95 Gasoline</b> is moderately concentrated around its central peak, with near‑symmetry and only a faint right skew. Its kurtosis is moderate, indicating typical volatility without extreme outliers.</li>
+											<li><b>Diesel 0.005% sulfur</b> prices are tightly clustered and nearly symmetric, showing mild skewness and moderate kurtosis. This reflects a stable distribution with few extreme values.</li>
+											<li><b>Kerosene</b> shows the greatest variability, with a broader base, a more pronounced right tail, and higher kurtosis. This suggests heavier tails and more frequent upward price spikes.</li>
+											<li><b>E5 Biofuel RON 92</b> has a wider spread and a slight right skew, indicating occasional higher‑price observations. The distribution remains smooth and unimodal with only mild departures from normality.</li>	
+										</ul>
+											
+										<header>
+												<h3><b>Transforming data</b></h3>
+											</header>
+												<span class="image fit"style="width: 75%; margin: 0 auto;"><img src="images/gallery/fulls/transformed monthly.jpeg" alt="" /></span>
+												<p>The original fuel ‑ price data was reported at irregular intervals, with gaps and inconsistent spacing between observations. 
+													Combined with the non ‑ normality detected in the distribution analysis, this made the raw series unsuitable for direct time‑series modeling.
+
+												<p>To create a more uniform structure, the data was interpolated to a monthly frequency, effectively transforming the irregular weekly (or semi‑weekly) 
+												   updates into a consistent 30 ‑ day average series. This step preserves the underlying trend while producing a smoother, analysis‑ready dataset</p>
+												
+												<span class="image fit" style="width: 75%; margin: 0 auto;"><img src="images/gallery/fulls/average vs all.jpeg" alt="" /></span>
+												<span class="image fit" style="width: 75%; margin: 0 auto;"><img src="images/gallery/fulls/monthly average changed.jpeg" alt="" /></span>
+												
+												<p>After transforming the data, the month ‑ on ‑ month percentage changes were visualized using a bar chart. The pattern shows:</p>
+												<ul>
+													<li>Large positive spikes during major market disruptions (e.g., around 2020 and 2022), reflecting sudden price surges.</li>
+													<li>Sharp negative swings following these peaks, indicating rapid corrections.</li>
+													<li>More moderate fluctuations in the later years, suggesting a stabilization phase after the volatility of earlier periods.</li>
+												</ul>
+												<p>This chart highlights the short ‑ term sensitivity of fuel prices to global shocks and policy adjustments.</p>
+
+												<span class="image fit" style="width: 75%; margin: 0 auto;"><img src="images/gallery/fulls/fuel trend.jpeg" alt="" /></span>
+									
+
+											<div class="content">
+												<table class="alt">
+													
+													<tbody>
+														<ul class="actions stacked"></ul>
+														<tr>
+															<td><span class="image fit"><img src="images/gallery/fulls/volatility 3m.jpeg" alt="" /></span>
+															<td><span class="image fit"><img src="images/gallery/fulls/volatility 6m.jpeg" alt="" /></span>
+															<td><span class="image fit"><img src="images/gallery/fulls/volatility 1y.jpeg" alt="" /></span>
+														</ul>
+													</tbody>
+												</table>
+											</div>	
+
+											<p>Rolling volatility measures how much prices fluctuate within a moving window. Examining 3‑month, 6‑month, and 1‑year windows provides a layered view of market stability:</p>
+											<ul>
+												<li>3 - Month Volatility: Captures short ‑ term turbulence. The sharp spikes indicate periods of rapid price swings, useful for detecting immediate market stress.</li>
+												<li>6 ‑ Month Volatility: Smooths out some noise while still reflecting medium ‑ term instability. Peaks align with major global events, showing how shocks propagate over time.</li>
+												<li>1 ‑ Year Volatility: Provides a long ‑ term perspective. The broader, slower ‑ moving peaks reveal structural instability in the fuel market rather than temporary fluctuations.</li>
+											</ul>
+											<p>Together, these measures help distinguish between temporary shocks and persistent volatility, which is essential for forecasting and risk assessment.</p>
+
+
+											<header>
+												<h3><b>Correlation Between Fuel Types</b></h3>
+											</header>
+											<span class="image fit" style="width: 75%; margin: 0 auto;"><img src="images/gallery/fulls/correlation.jpeg" alt="" /></span>
+												<p>The correlation matrix shows very strong positive correlations among all fuel types, with coefficients typically above 0.90. This indicates that:</p>
+												<ul>
+													<li>Fuel prices tend to move together, driven by shared underlying factors such as crude oil prices, taxes, and policy changes.</li>
+													<li>No fuel type behaves independently enough to serve as a hedge against others.</li>
+													<li>This high co‑movement allows for a naive predictive approach, where the movement of one fuel can be used as an initial indicator for the others.</li>
+												</ul>
+												
+									
+											<header>
+												<h3><b>Other tests to assess predictive strength</b></h3>
+											</header>
+										<span class="image fit" style="width: 75%; margin: 0 auto;"><img src="images/gallery/fulls/resid scatter.jpeg" alt="" /></span>
+										
+										<p><b>Residual scatterplots</b> compare the unexplained parts (or residuals) of two fuel price series after removing their trends or fitted values.
+											If the residuals of two fuels still move together, it means they share deeper structural connections beyond the main trends.
+											Otherwise, if residuals show no pattern (a random cloud), the two fuels behave independently after accounting for the main trends.</p>
+										
+										<p> Looking at the residual scatterplots, it shows that residual scatterplots would likely show:
+											all the fuels share the remaining residual's structure, the shocks, and the deviations from their trends are still highly correlated. 
+											This means that even after removing the main trends, the fuels still move together in their unexplained parts.
+										 	They are not independent from each other, as expected from the characteristics of fuel markets.</p>
+										
+										<p><b>Multicollinearity</b> is a test to show where it occurs, two or more variables move so closely together that they essentially carry the same information. 
+											In regression or forecasting models, this creates problems because model cannot distinguish which variable is actually driving the outcome,
+										    and coefficients become unstable or inflated;
+											small changes in data can cause large swings in model estimates;
+											then interpretation becomes unreliable.</p>	
+										
+										<p>In this case, multicollinearity test results, cointegration test results, together with the residual analysis above
+											 shows that fuels move almost identically. 
+										They cannot be used as independent predictors. Any regression including multiple fuels will have unstable coefficients.</p>
+
+										<hr />	
+										
+										<header>
+										<h2><b>Data Prediction</b></h2>
+										</header>
+												<header>
+												<h3><b>Naive Regression Model</b></h3>
+												</header>
+												
+												<span class="image fit" style="width: 75%; margin: 0 auto;"><img src="images/gallery/fulls/naive predicted.jpeg" alt="" /></span>	
+
+												<p>A simple linear regression was used to predict RON95 prices based solely on Diesel prices. 
+													This is a deliberately naive model, intended as a baseline rather than a final forecasting tool. 
+													The resulting prediction line tracks the actual RON95 series reasonably well, especially during broad market movements such as the sharp rise in 2022 and the subsequent decline. 
+													However, the model struggles to capture finer details and short‑term fluctuations, leading to noticeable deviations during periods of high volatility.</p>
+											
+													 <header>
+												<h3><b>Suggestion for further study</b></h3>
+												</header>
+												
+											<p> Since fuels are not cointegrated, each series should be modeled individually. Suitable models include:
+												<ul>
+													<li>ARIMA / SARIMA for trend and seasonality</li>
+													<li>ETS (Exponential Smoothing) for smoother structural patterns</li>
+													<li>Incorporate volatility modeling with GARCH ‑ type models (GARCH, EGARCH, TGARCH)</li>
+													<li>Hybrid ARIMA‑GARCH models</li>						
+													<li>Rolling‑window forecasts</li>
+												</ul>
+											
+										<hr />
+							
+							<!-- Code -->
+									<section>
+										<header>
+											<h4><i>All the code from the analysis can be found in my <b><a href="https://github.com/linh-dan-trinh/weekly-fuel-prices-Vietnam/" target="_blank">Github repository</a></i></b></h4>
+										</header>
+										<table class="alt">
+													
+													<tbody>
+														<ul class="actions stacked"></ul>
+														<tr>
+															<td><li><a href="https://linh-dan-trinh.github.io/portfolio/" class="button primary">Home page</a></li></td>
+															<td><li><a href="#" class="button primary">Back to top</a></li></td>	
+															<td><li><a href="#" class="button primary">Next article</a></li></td>
+															
+														</ul>
+										<div class="content">
+													</tbody>
+										</table>
+											
+												
+											
+
+						</div>
+					</section>
+
+			<section class="wrapper style2 align-center">
+			<div class="inner">		
+				
+								<!-- Contacts -->
+									<section>
+										<header>
+											<h3>Contacts</h3>
+										</header>
+										<div class="content">
+
+											<ul class="icons">
+												<li><a href="https://github.com/linh-dan-trinh" target= "_blank" class="icon brands style2 fa-github"><span class="label">Github</span></a></li>
+												<li><a href="https://www.linkedin.com/in/linh-dan-trinh/" target= "_blank" class="icon brands style2 fa-linkedin"><span class="label">LinkedIn</span></a></li>
+												<li><a href="https://www.facebook.com/ld.trijnh" target= "_blank" class="icon brands style2 fa-facebook-f"><span class="label">Facebook</span></a></li>
+											</ul>
+
+										</div>
+									</section>
+
+								<!-- Form -->
+									<section>
+										<header>
+											<h3>Send a message</h3>
+										</header>
+										<div class="content">
+
+											<form method="post" action="https://formspree.io/f/mbdagrba" onsubmit="sendMail(event)" autocomplete="on">
+												<div class="fields">
+													<div class="field half">
+														<label for="name">Name</label>
+														<input type="text" name="name" id="name" value="" autocomplete="name" />
+													</div>
+													<div class="field half">
+														<label for="email">Email</label>
+														<input type="email" name="email" id="email" value="" autocomplete="email" />
+													</div>
+												
+													<div class="field">
+														<label for="message">Message</label>
+														<textarea name="message" id="message" rows="6" autocomplete="on"></textarea>
+													</div>
+													<div class="field half">
+														<input type="checkbox" id="copy" name="copy" />
+														<label for="copy">Email me a copy of this message</label>
+													</div>
+													<div class="field half">
+														<input type="checkbox" id="human" name="human" />
+														<label for="human">I am a human and not a robot</label>
+													</div>
+												</div>
+												<ul class="actions">
+													<li><input type="submit" name="submit" id="submit" value="Send Message" /></li>
+												</ul>
+											</form>
+
+										</div>
+									</section>
+
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrollex.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+	</body>
+</html>	
