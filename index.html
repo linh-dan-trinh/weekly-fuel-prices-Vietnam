@@ -195,14 +195,15 @@
 										<h2><b>Data cleaning</b></h2>
 									</header>
 
-										<p>The dataset contains detailed information on fuel prices in <i>Vietnam</i> getting from <i>Petrolimex</i> and <i>PV oil</i>, including weekly prices for different types of fuel across various regions.</p>
+										<p>The dataset contains detailed information on fuel prices in <i>Vietnam</i> getting from 2 oil companies <i>Petrolimex</i> and <i>PV oil</i>, including weekly prices 
+											for different types of fuel across various regions for the period 2018 - 2026.</p>
 										<p>First step in data cleaning involved handling missing values, correcting inconsistencies, and ensuring that the data was in a suitable format for analysis. 
 											Next, the data was aggregated in each oil company's dataset to calculate average weekly prices for each fuel type and region, which helped to identify trends and patterns in the data.
 											For example, RON 95 fuel was listed as RON 95 type V zone 4 and RON 95 type V zone 5, which were taken average into a single category of RON 95 to simplify analysis. 
 											
 										<p>Data from both companies were then merged to create a comprehensive dataset that included all relevant information for analysis.
 											After, one final check for data quality (percentage of zeros, percentage of missing values, and outliers) was conducted to ensure the dataset was clean.
-											Finally, the cleaned dataset was structured to facilitate analysis, with clear variable names and consistent formatting.</p>
+											Finally, the cleaned single consolidated dataset was structured to facilitate analysis, with clear variable names and consistent formatting.</p>
 											
 										
 									<hr />
@@ -226,8 +227,10 @@
 										</ul> 
 									This gives a rich view of both volatility and long ‑ term structural differences between fuel types.</p>
 									<p>Four fuel types (Diesel 0.001%, E10 Ron 95, Fuel Oil 3% and Fuel Oil 3.5%) were introduced into the market significantly later than the others, 
-										resulting in incomplete and irregular time ‑ series records. Because their early data points are missing or fragmented, these fuels do not provide a continuous timeline for comparison.
-										To maintain analytical consistency and avoid distortion in trend analysis, the incomplete segments for these late ‑ entry fuels were removed from the dataset</p>	
+										resulting in incomplete and irregular time series records. Checking missing values shows <i>Diesel 0.001%S</i> got <i>113</i> data missing,
+										<i>249</i> data points for <i>Fuel 3%</i>, <i>248</i> data points for for <i>Fuel Oil 3.5%</i> and <i>235</i> for <i>E10 Biofuel with RON95</i>.
+										Because their early data points are missing or fragmented, these fuels do not provide a continuous timeline for comparison.
+										To maintain analytical consistency and avoid distortion in trend analysis, the incomplete segments for these fuels were removed from the dataset</p>	
 									
 									
 									<hr />
@@ -263,17 +266,22 @@
 											
 										<header>
 												<h3><b>Transforming data</b></h3>
-											</header>
+										</header>
+												<p>Below is the transformation of RON 95 Gasoline. The graph shows a comparision of full data trend with transformed data trend. </p>
 												<span class="image fit"style="width: 75%; margin: 0 auto;"><img src="images/gallery/fulls/transformed monthly.jpeg" alt="" /></span>
 												<p>The original fuel ‑ price data was reported at irregular intervals, with gaps and inconsistent spacing between observations. 
 													Combined with the non ‑ normality detected in the distribution analysis, this made the raw series unsuitable for direct time‑series modeling.
 
 												<p>To create a more uniform structure, the data was interpolated to a monthly frequency, effectively transforming the irregular weekly (or semi‑weekly) 
-												   updates into a consistent 30 ‑ day average series. This step preserves the underlying trend while producing a smoother, analysis‑ready dataset</p>
-												
+												   updates into a consistent 30 ‑ day average series. This step preserves the underlying trend while producing a smoother datase for analysis.</p>
+										
+										<header>
+												<h3><b>Average monthly data trend</b></h3>
+										</header>
 												<span class="image fit" style="width: 75%; margin: 0 auto;"><img src="images/gallery/fulls/average vs all.jpeg" alt="" /></span>
-												<span class="image fit" style="width: 75%; margin: 0 auto;"><img src="images/gallery/fulls/monthly average changed.jpeg" alt="" /></span>
+												<p>This line chart demonstrates a comprehensive view between the different trends of all the transformed data of each fuel types versus the price taken on average between them.</p>
 												
+												<span class="image fit" style="width: 75%; margin: 0 auto;"><img src="images/gallery/fulls/monthly average changed.jpeg" alt="" /></span>
 												<p>After transforming the data, the month ‑ on ‑ month percentage changes were visualized using a bar chart. The pattern shows:</p>
 												<ul>
 													<li>Large positive spikes during major market disruptions (e.g., around 2020 and 2022), reflecting sudden price surges.</li>
@@ -282,9 +290,7 @@
 												</ul>
 												<p>This chart highlights the short ‑ term sensitivity of fuel prices to global shocks and policy adjustments.</p>
 
-												<span class="image fit" style="width: 75%; margin: 0 auto;"><img src="images/gallery/fulls/fuel trend.jpeg" alt="" /></span>
-									
-
+												
 											<div class="content">
 												<table class="alt">
 													
@@ -299,7 +305,7 @@
 												</table>
 											</div>	
 
-											<p>Rolling volatility measures how much prices fluctuate within a moving window. Examining 3‑month, 6‑month, and 1‑year windows provides a layered view of market stability:</p>
+											<p>Rolling volatility measures how much prices fluctuate within a moving window. Examining 3 ‑ month, 6 ‑ month, and 1 ‑ year windows provides a layered view of market stability:</p>
 											<ul>
 												<li>3 - Month Volatility: Captures short ‑ term turbulence. The sharp spikes indicate periods of rapid price swings, useful for detecting immediate market stress.</li>
 												<li>6 ‑ Month Volatility: Smooths out some noise while still reflecting medium ‑ term instability. Peaks align with major global events, showing how shocks propagate over time.</li>
